@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import lk.oop.uno.model.Comment;
+import lk.oop.uno.model.CommentDto;
 
 @Service
 public class CommentServ implements InCommentServ{
@@ -31,29 +32,29 @@ public class CommentServ implements InCommentServ{
 
     @Override
     public String get_all_comment(){
-        String URL = String.format("https://data.mongodb-api.com/app/Your-Application-Name/endpoint/comment?method=%s", "get");
+        String URL = String.format("https://data.mongodb-api.com/app/your-app-name/endpoint/comment?method=%s", "get");
         return restTemplate.exchange(URL, HttpMethod.GET,httpEntity,String.class).getBody();
     }
     @Override
-    public String get_spec_comment(String email){
-        String URL = String.format("https://data.mongodb-api.com/app/Your-Application-Name/endpoint/comment?method=%s&email=%s", "get",email);
-        return restTemplate.exchange(URL, HttpMethod.GET, httpEntity, String.class).getBody();
+    public CommentDto get_spec_comment(String email){
+        String URL = String.format("https://data.mongodb-api.com/app/your-app-name/endpoint/comment?method=%s&email=%s", "get",email);
+        return restTemplate.exchange(URL, HttpMethod.GET, httpEntity, CommentDto.class).getBody();
     }
     @Override
     public String add_comment(Comment comment){
-        String URL = String.format("https://data.mongodb-api.com/app/Your-Application-Name/endpoint/comment?method=%s", "post");
+        String URL = String.format("https://data.mongodb-api.com/app/your-app-name/endpoint/comment?method=%s", "post");
         _httpEntity = new HttpEntity<Comment>(comment,httpHeaders);
         return restTemplate.exchange(URL, HttpMethod.POST, _httpEntity, String.class).getBody();
     }
     @Override
     public String update_comment(Comment comment){
-        String URL = String.format("https://data.mongodb-api.com/app/Your-Application-Name/endpoint/comment?method=%s", "put");
+        String URL = String.format("https://data.mongodb-api.com/app/your-app-name/endpoint/comment?method=%s", "put");
         _httpEntity = new HttpEntity<Comment>(comment,httpHeaders);
         return restTemplate.exchange(URL, HttpMethod.PUT, _httpEntity, String.class).getBody();
     }
     @Override
     public String delete_comment(String email){
-        String URL = String.format("https://data.mongodb-api.com/app/Your-Application-Name/endpoint/comment?method=%s&email=%s", "delete",email);
+        String URL = String.format("https://data.mongodb-api.com/app/your-app-name/endpoint/comment?method=%s&email=%s", "delete",email);
         return restTemplate.exchange(URL, HttpMethod.DELETE, httpEntity, String.class).getBody();
     }
 

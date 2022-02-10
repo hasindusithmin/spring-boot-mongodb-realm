@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lk.oop.uno.model.Comment;
+import lk.oop.uno.model.CommentDto;
 import lk.oop.uno.service.InCommentServ;
 
 @RestController
@@ -28,7 +29,7 @@ public class CommentCont {
     }
 
     @GetMapping("/{email}")
-    public String _get(@PathVariable String email){
+    public CommentDto _get(@PathVariable String email){
         return iServ.get_spec_comment(email);
     }
 
