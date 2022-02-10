@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>Spring Boot & MongoDB Realm</title>
+</head>
+<body>
+    <div class="w3-panel w3-leftbar w3-sand w3-xxlarge w3-serif">
+        <p>
+            // This function is the endpoint's request handler.
+            <br>
+            exports =  function(request, response) {
+                <br>
+                const collection = context.services.get("mongodb-atlas").db("clouddb").collection("comment");
+                <br>
+                let result;
+                <br>
+                // create a new comment
+                <br>
+                const createComment = ()=>{
+                    <br>
+                    const {name,email,body} = EJSON.parse(request.body.text());
+                    <br>
+                    result =  collection.insertOne({name,email,body});
+                    <br>
+                }
+                <br>
+                // read all comment || spec comment
+                <br>
+                const read = ()=>{
+                    <br>
+                  try{
+                    <br>
+                    const {email} = request.query;
+                    <br>
+                    result =  collection.findOne({email});
+                    <br>
+                  }
+                  <br>
+                  catch(error){
+                    <br>
+                    result =  collection.find().toArray();
+                    <br>
+                  }
+                  <br>
+                }
+                <br>
+                //update a exist comment
+                <br>
+                const updateComment = ()=>{
+                    <br>
+                  const {name,email,body} = EJSON.parse(request.body.text());
+                  <br>
+                  result =  collection.updateOne({email},{name,email,body});
+                  <br>
+                }
+                <br>
+                // delete a exist comment
+                <br>
+                const deleteComment = ()=>{
+                    <br>
+                  const {email} = request.query;
+                  <br>
+                  result =  collection.deleteOne({email});
+                  <br>
+                }
+                <br>
+                const {method} = request.query; //kick start
+                <br>
+                const http_verb = method.toUpperCase();
+                <br>
+                switch (http_verb) {
+                    <br>
+                  case "POST":
+                  <br>
+                    createComment();
+                    <br>
+                    break;
+                    <br>
+                  case "GET":
+                  <br>
+                    read();
+                    <br>
+                    break;
+                    <br>
+                  case "PUT":
+                  <br>
+                    updateComment();
+                    <br>
+                    break;
+                    <br>
+                  case "DELETE":
+                  <br>
+                    deleteComment();
+                    <br>
+                    break;
+                    <br>
+                }
+                <br>
+                return result;
+                <br>
+            };
+            <br>
+            </p>
+      </div> 
+</body>
+</html>
